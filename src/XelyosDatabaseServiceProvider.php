@@ -9,20 +9,23 @@
 namespace Xelyos\Database;
 
 use Illuminate\Support\ServiceProvider;
+use Xelyos\Database\Console\XelyosDatabaseConsole;
 
 class XelyosDatabaseServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        // $this->loadViewsFrom(__DIR__ . '/Resources/views', 'xelyos_database');
-        // $this->loadMigrationsFrom(__DIR__ . '/XelyosDatabase/Migrations');
-        // $this->loadRoutesFrom(__DIR__ . '/Routes/web.php');
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                XelyosDatabaseConsole::class
+            ]);
+        }
     }
 
     public function register()
     {
         $this->app->bind('xelyos_database', static function(){
-            return new \Xelyos\Database\Models\XelyosDatabase();
+            return new \Xelyos\Database\Models\XelyosDatabaseModel();
         });
     }
 
@@ -33,9 +36,6 @@ class XelyosDatabaseServiceProvider extends ServiceProvider
      */
     protected function bootForConsole()
     {
-        // Publishing the configuration file.
-        // $this->publishes([
-        //     __DIR__ . '/../config/xelyos_database.php' => config_path('xelyos_database.php'),
-        // ], 'xelyos_database.config');
+        //
     }
 }

@@ -11,7 +11,7 @@ namespace Xelyos\Database\Facade;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * Class XelyosDatabase
+ * Class XelyosDatabaseConsole
  *
  * @method static createDatabase(string $databaseName = null)
  * @method static checkDatabaseExist(string $databaseName = null);

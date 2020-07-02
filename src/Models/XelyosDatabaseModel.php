@@ -11,7 +11,7 @@ namespace Xelyos\Database\Models;
 use PDO;
 use PDOException;
 
-class XelyosDatabase
+class XelyosDatabaseModel
 {
     private PDO $pdo;
 
@@ -24,16 +24,20 @@ class XelyosDatabase
      * Create database
      *
      * @param  string|null  $databaseName
+     *
+     * @return string
      */
-    public function createDatabase(string $databaseName = null): void
+    public function createDatabase(string $databaseName = null): array
     {
         if ($databaseName === null) {
             $databaseName = config('database.connections.mysql.database');
         }
 
         if (!$databaseName) {
-            $this->info('Skipping creation of database as env(DB_DATABASE) is empty');
-            return;
+            return [
+                false,
+                'No database specified!'
+            ];
         }
 
         if(!$this->checkDatabaseExist()) {
@@ -45,12 +49,21 @@ class XelyosDatabase
                     config('database.connections.mysql.collation')
                 ));
 
-                $this->info(sprintf('Successfully created %s database', $databaseName));
-            } catch (PDOException $exception) {
-                $this->error(sprintf('Failed to create %s database, %s', $databaseName, $exception->getMessage()));
+                return [
+                    true,
+                    sprintf('Successfully created %s database', $databaseName)
+                ];
+            } catch (PDOException $e) {
+                return [
+                    false,
+                    sprintf('Failed to create %s database, %s', $databaseName, $e->getMessage())
+                ];
             }
         } else {
-            $this->info(sprintf('Databse %s already exist', $databaseName));
+            return [
+                true,
+                sprintf('Database %s already exist', $databaseName)
+            ];
         }
     }
 
