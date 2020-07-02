@@ -1,0 +1,25 @@
+{
+    "name": "xelyos/database",
+    "description": "Database package for laravel",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Xelyos Database",
+            "email": "-"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Xelyos\\Database\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Xelyos\\Database\\XelyosDatabaseServiceProvider"
+            ]
+        }
+    }
+}
